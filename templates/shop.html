@@ -21,7 +21,7 @@
 
 <script type="module">
     import { additionalProducts } from '../static/js/index.js';
-
+    import { apiProducts } from "../static/js/products.js";
     let allProducts = [];
     let currentPage = 1;
     const productsPerPage = 12;
@@ -153,27 +153,35 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            const response = await fetch("https://fakestoreapi.in/api/products?limit=150");
-            const res = await response.json();
-
-            if (res.status === "SUCCESS") {
-                const fetchedProducts = res.products;
-                
-                // Merge both lists
-                allProducts = [...fetchedProducts, ...additionalProducts];
-
-                console.log("Combined Products:", allProducts);
-                
-                setupPagination(allProducts.length);
-                renderProducts(currentPage);
-            } else {
-                console.error("Failed to load products: " + res.message);
-            }
-        } catch (error) {
-            console.error(`Error fetching products: ${error}`);
-        }
+        allProducts = [...apiProducts, ...additionalProducts];
+        console.log("Combined Products:", allProducts);  
+        setupPagination(allProducts.length);
+        renderProducts(currentPage);
+        
     });
+
+    // document.addEventListener('DOMContentLoaded', async function () {
+    //     try {
+    //         const response = await fetch("https://fakestoreapi.in/api/products?limit=150");
+    //         const res = await response.json();
+
+    //         if (res.status === "SUCCESS") {
+    //             const fetchedProducts = res.products;
+                
+    //             // Merge both lists
+    //             allProducts = [...fetchedProducts, ...additionalProducts];
+
+    //             console.log("Combined Products:", allProducts);
+                
+    //             setupPagination(allProducts.length);
+    //             renderProducts(currentPage);
+    //         } else {
+    //             console.error("Failed to load products: " + res.message);
+    //         }
+    //     } catch (error) {
+    //         console.error(`Error fetching products: ${error}`);
+    //     }
+    // });
 </script>
 
 
