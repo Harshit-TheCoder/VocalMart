@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request
-
+from products import products
 app = Flask(__name__)
 
 @app.route('/about')
@@ -10,6 +10,15 @@ def about():
 def thankyou():
     return render_template('thankyou.html')
 
+@app.route('/search')
+def search():
+    query = request.args.get('q')  # Getting value from URL like ?q=shoes
+    if query:
+        filtered_products = [product for product in products if query.lower() in product['title'].lower()]
+    else:
+        filtered_products = []
+
+    return render_template('search.html', products=filtered_products, query=query)
 
 @app.route('/process_payment', methods=['POST'])
 def payment():
